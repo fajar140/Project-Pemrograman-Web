@@ -3,13 +3,18 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
 
+// Komponen Mahasiswa sebagai kelas komponen React
 class Mahasiswa extends Component {
+    // State untuk menyimpan data mahasiswa dan status loading
     state = {
        mahasiswa: [],
        loading: true, 
     }
+    // Metode untuk memuat data mahasiswa saat komponen dipasang
     async componentDidMount(){
+        // Mengirim permintaan GET ke API untuk mendapatkan data mahasiswa
         const res =  await axios.get('http://127.0.0.1:8000/api/mahasiswa');
+        // Jika status respons adalah 200, mengupdate state dengan data mahasiswa
         if(res.data.status === 200){
             this.setState({
                 mahasiswa: res.data.mahasiswa,
@@ -18,10 +23,14 @@ class Mahasiswa extends Component {
 
         }
     }
+    // Metode untuk menghapus data mahasiswa berdasarkan ID
     deleteMhs = async (e, id) => {
+        // Mengubah teks tombol menjadi "Sedang Menghapus"
         const thisClicked = e.currentTarget;
         thisClicked.innerText = "Sedang Menghapus";
+        // Mengirim permintaan DELETE ke API untuk menghapus data mahasiswa
         const res = await axios.delete(`http://127.0.0.1:8000/api/delete-mhs/${id}`);
+        // Jika status respons adalah 200, menghapus baris tabel dan menampilkan pesan sukses
         if(res.data.status === 200){
             thisClicked.closest("tr").remove();
             swal({
@@ -34,13 +43,16 @@ class Mahasiswa extends Component {
 
         }
     }
-
+    // Metode untuk merender tampilan komponen Mahasiswa
     render() {
+        // Variabel untuk menyimpan isi tabel mahasiswa
         var tabel_mahasiswa="";
+        // Jika loading masih berlangsung, tampilkan pesan sedang memuat
         if(this.state.loading){
             tabel_mahasiswa = <tr><td colSpan="7"><h2>Sedang Memuat...</h2></td></tr> 
 
         }else{
+            // Jika loading selesai, map data mahasiswa ke baris tabel
             tabel_mahasiswa = 
             this.state.mahasiswa.map((item) => {
                 return(
@@ -61,6 +73,7 @@ class Mahasiswa extends Component {
             });
 
         }
+        // Merender tampilan keseluruhan komponen Mahasiswa
         return (
             <div className="container">
                 <h2>Daftar Peserta Lomba Coding</h2>

@@ -3,7 +3,9 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
 
+// Komponen AddMhs sebagai kelas komponen React
 class AddMhs extends Component {
+    // State untuk menyimpan data yang akan ditambahkan, dan pesan kesalahan validasi
     state = {
        nama: '', 
        npm: '', 
@@ -11,35 +13,43 @@ class AddMhs extends Component {
        bahasa: '', 
        error_list:[],
     }
-
+    // Metode untuk meng-handle perubahan input pada form
     handleInput = (e) => {
         this.setState({
            [e.target.name]: e.target.value
         });
     }
-
+    // Metode untuk menyimpan data mahasiswa baru
     saveMhs = async (e) => {
+        // Menghentikan perilaku bawaan form
         e.preventDefault();
+        // Mengirim permintaan POST ke API untuk menambahkan data mahasiswa
         const res = await axios.post('http://127.0.0.1:8000/api/add-mhs', this.state);
+        // Menangani respons dari API
         if(res.data.status === 200){
+            // Menampilkan pesan sukses jika berhasil
             swal({
                 title: "Berhasil",
                 text: res.data.message,
                 icon: "success",
                 button: "Ok",
             });
+            // Mereset state untuk menyiapkan form tambah mahasiswa yang baru
             this.setState({
                 nama: '', 
                 npm: '', 
                 kelas: '', 
                 bahasa: '', 
+                error_list: [], // Mengosongkan pesan kesalahan validasi
             });
         } else{
+            // Menangani kesalahan validasi
            this.setState({
             error_list: res.data.validate_err
            }); 
         }
     }
+    // Metode untuk merender tampilan komponen AddMhs
     render() {
         return (
             <div className="container">
