@@ -21,7 +21,6 @@ Pada project ini terdapat sebuah sistem manajemen Data peserta lomba coding untu
 5. Buka terminal pada folder "laravelapi" lalu run perintah-perintah berikut
    1. Pertama: php artisan migrate
    2. Kedua: php artisan serve
-8. Buka link yang muncul menggunakan browser
 9. Buka terminal pada folder "aplikasifajar" lalu ketik "npm start" pada terminal
 10. Sistem sudah siap untuk digunakan
 
